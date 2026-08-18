@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Categoriyalar:
+{% for category in categorys %}
+    <a href="{% url 'by_category' category.id %}">{{ category }}</a>
+{% endfor %}<hr>
+<a href="{% url 'all_phone' %}">Home</a><hr>
+
+<b>Phone:</b><br>
+{% for phone in phones %}
+    <a href="{% url 'detail' phone.id %}">{{ phone }}</a><br><br>
+{% endfor %}
+
+</body>
+</html>

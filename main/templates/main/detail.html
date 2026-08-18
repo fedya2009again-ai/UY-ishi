@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<b>Telefon nomi:</b> {{ phone.name }}<hr>
+<b>Telefon narxi:</b> {{ phone.price }}<hr>
+<b>Telefon rangi:</b> {{ phone.color }}<hr><br><br>
+<form action="{% url 'save_comment' phone.id %}" method="post">
+    {% csrf_token %}
+    <textarea name="text"></textarea>
+    <button type="submit">Comment yozish</button>
+</form><hr>
+{% for comment in comment %}
+    {{ comment.user.username }}: {{ comment.text }}
+    {% if request.user == comment.user %}
+        <a href="{% url 'update_comment' comment.id %}">Update</a>
+        <a href="{% url 'delete' comment.id %}">Delete</a>
+    {% endif %}
+    <hr>
+{% endfor %}
+<a href="{% url 'all_phone' %}">Home</a>
+</body>
+</html>
