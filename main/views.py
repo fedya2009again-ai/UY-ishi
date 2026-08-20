@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CommentForm
+from .forms import CommentForm, PhoneForm
 from django.http import HttpRequest
 
 from .models import Phone, Categoory, Comment
@@ -31,7 +31,25 @@ def detail(request, phone_id):
     }
     return render(request, 'main/detail.html', context)
 
+def create_phone(request):
+    if request.user.is_staff:
+        if request.method == "POST":
+            form = PhoneForm(data=request.POST, files=request.FILES)
+            if form.is_valid():
+                phone = form.save()
+                return redirect('detail', phone_id=phone.id)
+        else:
+            form = PhoneForm()
+        context = {
+            'form':form
+        }
+        return render(request, 'main/add_book.html', context)
 
+    else:
+        return redirect('home')
+
+
+#----------------- Comment ----------------------
 def save_comment(request: HttpRequest, phone_id):
     if request.user.is_authenticated:
         if request.method == 'POST':
